@@ -23,12 +23,11 @@ A simple Java program to convert time between different time zones using Java's 
    ***Welcome to Timezone Converter!***
    ***Please refer to timezones.txt when attempting timezones.***
 
-   Enter time (HH:MM): 15:46
+   Enter time (HH:MM): 16:53
    Enter date (YYYY-MM-DD): 2024-11-17
    Enter source city (e.g., America/New_York, Asia/Kolkata): America/New_York
    Enter target city (e.g., America/New_York, Asia/Kolkata): Asia/Dubai
 
    Converted Time:
-   Source City (America/New_York): 2024-11-17 15:46
-   Target City (Asia/Dubai): 2024-11-18 00:46
-
+   Source City (America/New_York): 2024-11-17 16:53
+   Target City (Asia/Dubai): 2024-11-18 01:53
