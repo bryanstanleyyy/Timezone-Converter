@@ -54,8 +54,23 @@ public class TimezoneConverter {
         return !timeZone.getID().equals("UTC");
     }
 
+    // Method to get a valid city input
+    private static String getValidCityInput(Scanner scanner, String cityType) {
+        String city;
+        while (true) {
+            System.out.print("Enter " + cityType + " city (e.g., America/New_York, Asia/Kolkata): ");
+            city = scanner.nextLine();
+            if (isValidTimeZone(city)) {
+                break;
+            } else {
+                System.out.println("Invalid " + cityType + " city. Please provide a valid city time zone name.");
+            }
+        }
+        return city;
+    }
+
     // Method to convert time between different time zones
-    private static String convertTime(String time, String sourceCity, String targetCity) {
+    private static String convertTime(String time, String date, String sourceCity, String targetCity) {
         if (!isValidTimeZone(sourceCity)) {
             return "Error: Invalid source time zone. Please provide a valid city time zone name.";
         }
@@ -64,38 +79,36 @@ public class TimezoneConverter {
         }
 
         try {
-            // Parse input time
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            Date sourceTime = sdf.parse(time);
+            // Combine date and time into a full datetime
+            SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date sourceFullDateTime = fullFormat.parse(date + " " + time);
 
-            // Get time zones based on city names (using standard time zone IDs)
+            // Get time zones
             TimeZone sourceTimeZone = TimeZone.getTimeZone(sourceCity);
             TimeZone targetTimeZone = TimeZone.getTimeZone(targetCity);
 
-            // Get the time in milliseconds
-            long sourceTimeInMillis = sourceTime.getTime();
-            
-            // Get the time difference between source and target time zones
+            // Get time in milliseconds
+            long sourceTimeInMillis = sourceFullDateTime.getTime();
+
+            // Get the time difference
             int sourceOffset = sourceTimeZone.getOffset(sourceTimeInMillis);
             int targetOffset = targetTimeZone.getOffset(sourceTimeInMillis);
 
-            // Convert time to target city time
+            // Convert time
             long targetTimeInMillis = sourceTimeInMillis + (targetOffset - sourceOffset);
-            Date targetTime = new Date(targetTimeInMillis);
+            Date targetFullDateTime = new Date(targetTimeInMillis);
 
-            // Format the target time
-            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
-            String targetTimeStr = outputFormat.format(targetTime);
-
-            return targetTimeStr;
+            // Format output with full date and time, including time zone abbreviation
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm z");
+            return outputFormat.format(targetFullDateTime);
         } catch (ParseException e) {
-            return "Error: Invalid time format.";
+            return "Error: Invalid time or date format.";
         }
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        
         // Display welcome message and reference
         System.out.println("***Welcome to Timezone Converter!***");
         System.out.println("***Please refer to timezones.txt when attempting timezones.***\n");
@@ -107,34 +120,16 @@ public class TimezoneConverter {
         String date = getValidDateInput(scanner);
 
         // Get source and target cities
-        String sourceCity, targetCity;
-        while (true) {
-            System.out.print("Enter source city (e.g., America/New_York, Asia/Kolkata): ");
-            sourceCity = scanner.nextLine();
-            if (isValidTimeZone(sourceCity)) {
-                break;
-            } else {
-                System.out.println("Invalid source city. Please provide a valid city time zone name.");
-            }
-        }
-
-        while (true) {
-            System.out.print("Enter target city (e.g., America/New_York, Asia/Kolkata): ");
-            targetCity = scanner.nextLine();
-            if (isValidTimeZone(targetCity)) {
-                break;
-            } else {
-                System.out.println("Invalid target city. Please provide a valid city time zone name.");
-            }
-        }
+        String sourceCity = getValidCityInput(scanner, "source");
+        String targetCity = getValidCityInput(scanner, "target");
 
         // Convert the time and print results
-        String targetTime = convertTime(time, sourceCity, targetCity);
+        String targetTime = convertTime(time, date, sourceCity, targetCity);
 
         // Print the converted time
         System.out.println("\nConverted Time:");
         System.out.println("Source City (" + sourceCity + "): " + date + " " + time);
-        System.out.println("Target City (" + targetCity + "): " + date + " " + targetTime);
+        System.out.println("Target City (" + targetCity + "): " + targetCity + ": " + targetTime);
 
         scanner.close();
     }
