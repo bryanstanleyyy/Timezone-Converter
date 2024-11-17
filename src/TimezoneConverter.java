@@ -1,10 +1,29 @@
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public class TimezoneConverter {
+    // Map of city names to time zones
+    private static final Map<String, String> cityToTimeZone = new HashMap<>();
+
+    static {
+        // Fill the map with some common cities and their time zones
+        cityToTimeZone.put("New York", "America/New_York");
+        cityToTimeZone.put("Los Angeles", "America/Los_Angeles");
+        cityToTimeZone.put("London", "Europe/London");
+        cityToTimeZone.put("Tokyo", "Asia/Tokyo");
+        cityToTimeZone.put("Sydney", "Australia/Sydney");
+        cityToTimeZone.put("Paris", "Europe/Paris");
+        cityToTimeZone.put("Berlin", "Europe/Berlin");
+        cityToTimeZone.put("Moscow", "Europe/Moscow");
+        cityToTimeZone.put("Dubai", "Asia/Dubai");
+        cityToTimeZone.put("Mumbai", "Asia/Kolkata");
+        // Add more cities as needed
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -17,23 +36,31 @@ public class TimezoneConverter {
                 String time = getValidTimeInput(scanner);
 
                 // Input date
-                String date = getValidDateInput(scanner);
+                String date = getValidDateInput(scanner());
 
-                // Input source and target time zones
-                String sourceZone = getValidTimeZoneInput(scanner, "source");
-                String targetZone = getValidTimeZoneInput(scanner, "target");
+                // Input source and target cities
+                String sourceCity = getValidCityInput(scanner, "source");
+                String targetCity = getValidCityInput(scanner, "target");
+
+                // Convert city names to time zones
+                String sourceZone = cityToTimeZone.get(sourceCity);
+                String targetZone = cityToTimeZone.get(targetCity);
+
+                if (sourceZone == null || targetZone == null) {
+                    throw new Exception("Invalid city name. Please use a valid city name.");
+                }
 
                 // Parse input
                 LocalDateTime localDateTime = LocalDateTime.parse(date + "T" + time);
                 ZonedDateTime sourceDateTime = ZonedDateTime.of(localDateTime, ZoneId.of(sourceZone));
 
-                // Convert to target timezone
+                // Convert to target time zone
                 ZonedDateTime targetDateTime = sourceDateTime.withZoneSameInstant(ZoneId.of(targetZone));
 
                 // Output result
                 System.out.println("\nConverted Time:");
-                System.out.printf("Source (%s): %s%n", sourceZone, sourceDateTime);
-                System.out.printf("Target (%s): %s%n", targetZone, targetDateTime);
+                System.out.printf("Source (%s): %s%n", sourceCity, sourceDateTime);
+                System.out.printf("Target (%s): %s%n", targetCity, targetDateTime);
                 break; // Exit the loop when everything is correct
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
@@ -72,18 +99,18 @@ public class TimezoneConverter {
         }
     }
 
-    // Method to get a valid time zone input
-    private static String getValidTimeZoneInput(Scanner scanner, String type) {
+    // Method to get a valid city input
+    private static String getValidCityInput(Scanner scanner, String type) {
         while (true) {
-            System.out.print("Enter " + type + " time zone (e.g., America/New_York): ");
-            String timeZone = scanner.nextLine();
-            // Validate if the time zone is available
-            Set<String> availableZones = ZoneId.getAvailableZoneIds();
-            if (availableZones.contains(timeZone)) {
-                return timeZone;
+            System.out.print("Enter " + type + " city (e.g., New York, Tokyo): ");
+            String city = scanner.nextLine();
+
+            if (cityToTimeZone.containsKey(city)) {
+                return city;
             } else {
-                System.out.println("Invalid time zone. Please make sure it's a valid time zone.");
+                System.out.println("Invalid city. Please enter a valid city.");
             }
         }
     }
 }
+
