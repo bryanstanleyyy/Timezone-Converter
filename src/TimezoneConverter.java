@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -57,10 +58,13 @@ public class TimezoneConverter {
                 // Convert to target time zone
                 ZonedDateTime targetDateTime = sourceDateTime.withZoneSameInstant(ZoneId.of(targetZone));
 
-                // Output result
+                // Format the result
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
+
+                // Output result with formatted time
                 System.out.println("\nConverted Time:");
-                System.out.printf("Source (%s): %s%n", sourceCity, sourceDateTime);
-                System.out.printf("Target (%s): %s%n", targetCity, targetDateTime);
+                System.out.printf("Source (%s): %s%n", sourceCity, sourceDateTime.format(formatter));
+                System.out.printf("Target (%s): %s%n", targetCity, targetDateTime.format(formatter));
                 break; // Exit the loop when everything is correct
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
@@ -113,4 +117,3 @@ public class TimezoneConverter {
         }
     }
 }
-
