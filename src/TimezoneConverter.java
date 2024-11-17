@@ -96,6 +96,10 @@ public class TimezoneConverter {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // Display welcome message and reference
+        System.out.println("***Welcome to Timezone Converter!***");
+        System.out.println("***Please refer to timezones.txt when attempting timezones.***\n");
+
         // Get time input from user
         String time = getValidTimeInput(scanner);
 
