@@ -20,13 +20,15 @@ A simple Java program to convert time between different time zones using Java's 
    java TimezoneConverter
 4. Example:
    ```bash
-   Welcome to Timezone Converter!
-   Enter time (HH:MM): 14:30
+   ***Welcome to Timezone Converter!***
+   ***Please refer to timezones.txt when attempting timezones.***
+
+   Enter time (HH:MM): 15:46
    Enter date (YYYY-MM-DD): 2024-11-17
-   Enter source timezone (e.g., America/New_York): America/New_York
-   Enter target timezone (e.g., Asia/Tokyo): Asia/Tokyo
+   Enter source city (e.g., America/New_York, Asia/Kolkata): America/New_York
+   Enter target city (e.g., America/New_York, Asia/Kolkata): Asia/Dubai
 
    Converted Time:
-   Source (America/New_York): 2024-11-17T14:30-05:00[America/New_York]
-   Target (Asia/Tokyo): 2024-11-18T04:30+09:00[Asia/Tokyo]
+   Source City (America/New_York): 2024-11-17 15:46
+   Target City (Asia/Dubai): 2024-11-18 00:46
 
