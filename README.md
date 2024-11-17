@@ -10,8 +10,8 @@ A simple Java program to convert time between different time zones using Java's 
 ## How to Run
 1. Clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/TimezoneConverter.git
-   cd TimezoneConverter/src
+   git clone https://github.com/bryanstanleyyy/Timezone-Converter.git
+   cd Timezone-Converter/src
 2. Compile the program:
    ```bash
    javac TimezoneConverter.java
