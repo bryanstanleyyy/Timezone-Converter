@@ -98,8 +98,8 @@ public class TimezoneConverter {
             long targetTimeInMillis = sourceTimeInMillis + (targetOffset - sourceOffset);
             Date targetFullDateTime = new Date(targetTimeInMillis);
 
-            // Format output with full date and time, including time zone abbreviation
-            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm z");
+            // Format output without the time zone abbreviation
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             return outputFormat.format(targetFullDateTime);
         } catch (ParseException e) {
             return "Error: Invalid time or date format.";
@@ -129,7 +129,7 @@ public class TimezoneConverter {
         // Print the converted time
         System.out.println("\nConverted Time:");
         System.out.println("Source City (" + sourceCity + "): " + date + " " + time);
-        System.out.println("Target City (" + targetCity + "): " + targetCity + ": " + targetTime);
+        System.out.println("Target City (" + targetCity + "): " + targetTime);
 
         scanner.close();
     }
