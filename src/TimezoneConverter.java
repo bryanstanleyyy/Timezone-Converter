@@ -36,7 +36,7 @@ public class TimezoneConverter {
                 String time = getValidTimeInput(scanner);
 
                 // Input date
-                String date = getValidDateInput(scanner());
+                String date = getValidDateInput(scanner);
 
                 // Input source and target cities
                 String sourceCity = getValidCityInput(scanner, "source");
