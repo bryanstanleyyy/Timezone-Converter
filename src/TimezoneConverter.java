@@ -2,7 +2,7 @@ import java.util.*;
 import java.text.*;
 
 public class TimezoneConverter {
-    
+
     // Method to get valid time input
     private static String getValidTimeInput(Scanner scanner) {
         while (true) {
@@ -21,6 +21,28 @@ public class TimezoneConverter {
                 }
             } else {
                 System.out.println("Invalid time format. Please use the format HH:MM.");
+            }
+        }
+    }
+
+    // Method to get valid date input
+    private static String getValidDateInput(Scanner scanner) {
+        while (true) {
+            System.out.print("Enter date (YYYY-MM-DD): ");
+            String date = scanner.nextLine();
+            // Check if the date is in the correct format
+            if (date.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+                try {
+                    // Use SimpleDateFormat to check if the date is valid
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    sdf.setLenient(false); // Set lenient to false to prevent invalid dates
+                    Date parsedDate = sdf.parse(date);
+                    return date;
+                } catch (ParseException e) {
+                    System.out.println("Invalid date. Please enter a valid date (YYYY-MM-DD).");
+                }
+            } else {
+                System.out.println("Invalid date format. Please use the format YYYY-MM-DD.");
             }
         }
     }
@@ -63,6 +85,9 @@ public class TimezoneConverter {
         // Get time input from user
         String time = getValidTimeInput(scanner);
 
+        // Get date input from user
+        String date = getValidDateInput(scanner);
+
         // Get source and target cities
         System.out.print("Enter source city (e.g., New York, Tokyo): ");
         String sourceCity = scanner.nextLine();
@@ -74,9 +99,9 @@ public class TimezoneConverter {
 
         // Print the converted time
         System.out.println("\nConverted Time:");
-        System.out.println("Source City (" + sourceCity + "): " + time);
-        System.out.println("Target City (" + targetCity + "): " + targetTime);
-        
+        System.out.println("Source City (" + sourceCity + "): " + date + " " + time);
+        System.out.println("Target City (" + targetCity + "): " + date + " " + targetTime);
+
         scanner.close();
     }
 }
