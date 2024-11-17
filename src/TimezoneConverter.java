@@ -76,18 +76,28 @@ public class TimezoneConverter {
     }
 
     // Method to get valid time input
+    // Method to get valid time input
     private static String getValidTimeInput(Scanner scanner) {
         while (true) {
             System.out.print("Enter time (HH:MM): ");
             String time = scanner.nextLine();
-            // Check if the time matches the expected format
-            if (time.matches("^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$")) {
-                return time;
+            // Allow one or two digits for hour and minute
+            if (time.matches("^(\\d{1,2}):(\\d{2})$")) {
+                // Ensure hour is between 00-23 and minute is between 00-59
+                String[] parts = time.split(":");
+                int hour = Integer.parseInt(parts[0]);
+                int minute = Integer.parseInt(parts[1]);
+                if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59) {
+                    return time;
+                } else {
+                    System.out.println("Invalid time. Hour must be between 00 and 23, and minute must be between 00 and 59.");
+                }
             } else {
                 System.out.println("Invalid time format. Please use the format HH:MM.");
             }
         }
     }
+
 
     // Method to get valid date input
     private static String getValidDateInput(Scanner scanner) {
